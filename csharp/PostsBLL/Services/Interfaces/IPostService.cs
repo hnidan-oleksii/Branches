@@ -7,7 +7,7 @@ namespace PostsBLL.Services.Interfaces;
 public interface IPostService
 {
     Task<PostDTO> GetPostByIdAsync(int id);
-    Task<IEnumerable<PostDTO>> GetPosts();
+    Task<PagedList<PostDTO>> GetPosts(PostParameters parameters);
     Task<PostDTO> CreatePostAsync(CreatePostDTO dto);
     Task UpdatePostAsync(int id, UpdatePostDTO dto);
     Task DeletePostAsync(int id);

@@ -20,10 +20,16 @@ public class PostService : IPostService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<PostDTO>> GetPosts()
+    public async Task<PagedList<PostDTO>> GetPosts(PostParameters parameters)
     {
         var posts = await _unitOfWork.Posts.GetAllAsync();
-        return _mapper.Map<IEnumerable<PostDTO>>(posts);
+        var postDTOs = _mapper.Map<IEnumerable<PostDTO>>(posts);
+        
+        SearchByTitle(ref postDTOs, parameters.Title);
+        
+        return PagedList<PostDTO>.ToPagedList(postDTOs,
+            parameters.PageNumber,
+            parameters.PageSize);
     }
 
     public async Task<PostDTO> GetPostByIdAsync(int id)
