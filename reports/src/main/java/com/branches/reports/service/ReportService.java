@@ -22,6 +22,7 @@ public class ReportService {
     private final ReportRepository reportRepository;
 
     private final ReportableService reportableService;
+    private final CommentsClient commentsClient;
 
     public List<ReportDTO> getAllReports() {
         return reportRepository.findAll().stream()
@@ -30,8 +31,8 @@ public class ReportService {
     }
 
     public ReportDTO report(CreateReportDTO dto) {
-        // TODO Checking for comments existance
-        if (dto.commentId() != null && false) {
+        if (dto.commentId() != null &&
+                commentsClient.getComment(dto.postId(), dto.commentId()) == null) {
             throw new IllegalArgumentException("Comment id don't exists");
         }
         // TODO Checking for post existence

@@ -70,6 +70,8 @@ class ReportsApplicationTests {
 
     @Test
     void shouldReportComment() {
+        CommentsStubs.stubCommentsCall(1L, 5L);
+
         String createReportJson = """
                 {
                     "reportedBy": 2,
