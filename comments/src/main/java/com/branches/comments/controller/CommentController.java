@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts/{postId}/comments")
+@RequestMapping("/api/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -19,12 +19,11 @@ public class CommentController {
     private final CommentVoteService commentVoteService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentDTO> getComment(@PathVariable Long postId,
-                                                 @PathVariable Long id) {
+    public ResponseEntity<CommentDTO> getComment(@PathVariable Long id) {
         return ResponseEntity.ok(commentService.getCommentById(id));
     }
 
-    @GetMapping
+    @GetMapping("/posts/{postId}")
     public ResponseEntity<List<CommentDTO>> getCommentsByPost(@PathVariable Long postId) {
         List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
         return ResponseEntity.ok(comments);

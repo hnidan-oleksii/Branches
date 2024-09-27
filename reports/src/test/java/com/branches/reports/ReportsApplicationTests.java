@@ -17,13 +17,12 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-@Import(TestcontainersConfiguration.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWireMock
+@AutoConfigureWireMock(port = 0)
 class ReportsApplicationTests {
 
     @ServiceConnection
-    static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:16.3");
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:16.3");
 
     @LocalServerPort
     private Integer port;
@@ -70,7 +69,8 @@ class ReportsApplicationTests {
 
     @Test
     void shouldReportComment() {
-        CommentsStubs.stubCommentsCall(1L, 5L);
+        CommentsStubs.stubCommentsCall(5L);
+
 
         String createReportJson = """
                 {
@@ -87,6 +87,7 @@ class ReportsApplicationTests {
                 .when()
                 .post("/api/reports")
                 .then()
+                .log().all()
                 .statusCode(201)
                 .body("id", notNullValue())
                 .body("reportedBy", equalTo(2))

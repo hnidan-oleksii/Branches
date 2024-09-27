@@ -32,14 +32,13 @@ public class ReportService {
 
     public ReportDTO report(CreateReportDTO dto) {
         if (dto.commentId() != null &&
-                commentsClient.getComment(dto.postId(), dto.commentId()) == null) {
+                commentsClient.getComment(dto.commentId()) == null) {
             throw new IllegalArgumentException("Comment id don't exists");
         }
         // TODO Checking for post existence
         if (dto.postId() != null && false) {
             throw new IllegalArgumentException("Post id don't exists");
         }
-
 
         Optional<Reportable> existingReportable = reportableService.findByPostIdAndCommentId(dto.postId(), dto.commentId());
         if (existingReportable.isPresent()) {

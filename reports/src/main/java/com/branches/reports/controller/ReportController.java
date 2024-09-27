@@ -26,6 +26,7 @@ public class ReportController {
 
     @PostMapping
     public ResponseEntity<ReportDTO> report(@RequestBody CreateReportDTO dto) {
+        System.out.println("1");
         return new ResponseEntity<>(reportService.report(dto), HttpStatus.CREATED);
     }
 
