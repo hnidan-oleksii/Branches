@@ -22,7 +22,7 @@ public class Routes {
 	@Bean
 	public RouterFunction<ServerResponse> reportsRoute() {
 		return route("reports")
-			.route(RequestPredicates.path("/api/reports"), http("https://localhost:8082"))
+			.route(RequestPredicates.path("/api/reports"), http("http://localhost:8082"))
 			.build();
 	}
 }
