@@ -1,3 +1,4 @@
+using Posts.Middleware.Exceptions;
 using PostsBLL.AutomapperProfiles;
 using PostsBLL.Services;
 using PostsBLL.Services.Interfaces;
@@ -25,14 +26,20 @@ builder.Services.AddScoped<IPostVoteService, PostVoteService>();
 // Automapper
 builder.Services.AddAutoMapper(typeof(PostMappingProfile).Assembly);
 
+// Exception Handling
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
