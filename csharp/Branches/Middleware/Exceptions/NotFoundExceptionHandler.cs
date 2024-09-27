@@ -5,9 +5,9 @@ namespace Branches.Middleware.Exceptions;
 
 public class NotFoundExceptionHandler : IExceptionHandler
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger;
+    private readonly ILogger<NotFoundExceptionHandler> _logger;
 
-    public NotFoundExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    public NotFoundExceptionHandler(ILogger<NotFoundExceptionHandler> logger)
     {
         _logger = logger;
     }
