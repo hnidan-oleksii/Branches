@@ -1,15 +1,37 @@
+using Infrastructure.Data;
+using Application.Common.Mappings;
+using Application.WallPosts.Commands.CreateWallPost;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Application.Common.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");
+builder.Services.AddDbContext<IWallContext, WallContext>(options =>
+{
+	options.EnableSensitiveDataLogging();
+	options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
+}); 
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(WallPostMappingProfile).Assembly);
+
+// MediarR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateWallPostCommand).Assembly));
+
+// Fluent Validation
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateWallPostCommandValidator>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
