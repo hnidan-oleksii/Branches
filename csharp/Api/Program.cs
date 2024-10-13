@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Application.Common.Interfaces;
+using Api.Middleware.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,18 +18,23 @@ builder.Services.AddDbContext<IWallContext, WallContext>(options =>
 {
 	options.EnableSensitiveDataLogging();
 	options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
-}); 
+});
 
 // Automapper
 builder.Services.AddAutoMapper(typeof(WallPostMappingProfile).Assembly);
 
-// MediarR
+// MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateWallPostCommand).Assembly));
 
 // Fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateWallPostCommandValidator>();
+
+// Exception Handling
+builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -37,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
