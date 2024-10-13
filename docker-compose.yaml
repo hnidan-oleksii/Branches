@@ -10,4 +10,57 @@ services:
     volumes:
       - ./infrastructure/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/postgres/data:/var/lib/postgresql/data
+    networks:
+      - branches-network
 
+  comments-server:
+    image: comments-server
+    build:
+      context: ./comments
+      dockerfile: Dockerfile
+    environment:
+      PSQL_HOST: postgres
+      PSQL_USER: postgres
+      PSQL_PASS: disco
+      PSQL_PORT: 5432
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+    networks:
+      - branches-network
+
+  reports-server:
+    image: reports-server
+    build:
+      context: ./reports
+      dockerfile: Dockerfile
+    environment:
+      PSQL_HOST: postgres
+      PSQL_USER: postgres
+      PSQL_PASS: disco
+      PSQL_PORT: 5432
+      COMMENTS_URL: http://comments-server:8081
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+    networks:
+      - branches-network
+
+  geteway-server:
+    image: gateway-server
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    environment:
+      COMMENTS_URL: http://comments-server:8081
+      REPORTS_URL: http://reports-server:8082
+    ports:
+      - "9000:9000"
+    networks:
+      - branches-network
+
+networks:
+  branches-network:
+    driver: bridge
