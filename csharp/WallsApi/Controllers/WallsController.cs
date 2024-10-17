@@ -41,14 +41,14 @@ public class WallsController : ControllerBase
             return BadRequest("Comment ID in the route does not match the Comment ID in the body.");
 
         var postId = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetWallPostsByUserId), new { userId });
+        return CreatedAtAction(nameof(GetWallPostsByUserId), new { userId = userId }, postId);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateWallPost(int id,
         [FromBody] UpdateWallPostCommand command)
     {
-        if (id != command.PostId)
+        if (id != command.Id)
             return BadRequest("Post ID in the route does not match the Post ID in the body.");
 
         await _mediator.Send(command);
@@ -74,21 +74,22 @@ public class WallsController : ControllerBase
     }
 
     [HttpPost("{postId}/comment")]
-    public async Task<IActionResult> CreateWallComment(int postId,
+    public async Task<IActionResult> CreateWallComment(int userId, 
+        int postId,
         [FromBody] CreateWallCommentCommand command)
     {
         if (postId != command.PostId)
             return BadRequest("Post ID in the route does not match the Post ID in the body.");
 
         var commentId = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetCommentsByPostId), new { postId = command.PostId }, commentId);
+        return CreatedAtAction(nameof(GetCommentsByPostId), new { userId = userId, postId = command.PostId }, commentId);
     }
 
     [HttpPut("comment/{id}")]
     public async Task<IActionResult> UpdateWallComment(int id,
         [FromBody] UpdateWallCommentCommand command)
     {
-        if (id != command.CommentId)
+        if (id != command.Id)
             return BadRequest("Comment ID in the route does not match the Comment ID in the body.");
 
         await _mediator.Send(command);

@@ -14,10 +14,10 @@ public class DeleteWallCommentCommandHandler : IRequestHandler<DeleteWallComment
 
     public async Task<Unit> Handle(DeleteWallCommentCommand request, CancellationToken cancellationToken)
     {
-        var wallComment = await _context.WallComments.FindAsync(request.CommentId);
+        var wallComment = await _context.WallComments.FindAsync(request.Id);
 
         if (wallComment == null)
-            throw new KeyNotFoundException($"Comment with id: {request.CommentId} not found");
+            throw new KeyNotFoundException($"Comment with id: {request.Id} not found");
 
         _context.WallComments.Remove(wallComment);
         await _context.SaveChangesAsync(cancellationToken);

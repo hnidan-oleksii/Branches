@@ -14,12 +14,12 @@ public class UpdateWallCommentCommandHandler : IRequestHandler<UpdateWallComment
 
     public async Task<Unit> Handle(UpdateWallCommentCommand request, CancellationToken cancellationToken)
     {
-        var wallComment = await _context.WallComments.FindAsync(request.CommentId);
+        var wallComment = await _context.WallComments.FindAsync(request.Id);
 
         if (wallComment == null)
-            throw new KeyNotFoundException($"Comment with id: {request.CommentId} not found");
+            throw new KeyNotFoundException($"Comment with id: {request.Id} not found");
 
-        wallComment.UpdateContent(request.NewContent);
+        wallComment.UpdateContent(request.Content);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

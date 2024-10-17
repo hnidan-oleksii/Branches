@@ -14,12 +14,12 @@ public class UpdateWallPostCommandHandler : IRequestHandler<UpdateWallPostComman
 
     public async Task<Unit> Handle(UpdateWallPostCommand request, CancellationToken cancellationToken)
     {
-        var wallPost = await _context.WallPosts.FindAsync(request.PostId);
+        var wallPost = await _context.WallPosts.FindAsync(request.Id);
 
         if (wallPost == null)
-            throw new KeyNotFoundException($"Wall post with id {request.PostId} was not found");
+            throw new KeyNotFoundException($"Wall post with id {request.Id} was not found");
 
-        wallPost.UpdateContent(request.NewContent);
+        wallPost.UpdateContent(request.Content);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

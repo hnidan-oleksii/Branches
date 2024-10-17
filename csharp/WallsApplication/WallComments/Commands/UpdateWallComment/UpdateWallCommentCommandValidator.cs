@@ -6,8 +6,9 @@ public class UpdateWallCommentCommandValidator : AbstractValidator<UpdateWallCom
 {
     public UpdateWallCommentCommandValidator()
     {
-        RuleFor(x => x.NewContent)
+        RuleFor(x => x.Content)
             .NotEmpty().WithMessage("New content is required")
             .MaximumLength(500).WithMessage("Content cannot exceed 500 characters");
+        Console.WriteLine(1);
     }
 }

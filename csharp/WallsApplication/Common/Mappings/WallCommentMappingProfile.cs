@@ -10,6 +10,6 @@ public class WallCommentMappingProfile : Profile
     public WallCommentMappingProfile()
     {
         CreateMap<WallComment, WallCommentDto>();
-        CreateMap<CreateWallCommentCommand, WallCommentDto>();
+        CreateMap<CreateWallCommentCommand, WallComment>();
     }
 }

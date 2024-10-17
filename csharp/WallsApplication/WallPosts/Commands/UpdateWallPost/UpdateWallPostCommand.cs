@@ -2,8 +2,14 @@ using MediatR;
 
 namespace WallsApplication.WallPosts.Commands.UpdateWallPost;
 
-public record UpdateWallPostCommand : IRequest, IRequest<Unit>
+public record UpdateWallPostCommand : IRequest<Unit>
 {
-    public int PostId { get; }
-    public string NewContent { get; }
+    public int Id { get; }
+    public string Content { get; }
+
+    public UpdateWallPostCommand(int id, string content)
+    {
+        Id = id;
+        Content = content;
+    }
 }

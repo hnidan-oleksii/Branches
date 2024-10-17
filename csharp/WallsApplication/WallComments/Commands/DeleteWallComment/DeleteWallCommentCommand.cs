@@ -2,12 +2,12 @@ using MediatR;
 
 namespace WallsApplication.WallComments.Commands.DeleteWallComment;
 
-public record DeleteWallCommentCommand : IRequest, IRequest<Unit>
+public record DeleteWallCommentCommand : IRequest<Unit>
 {
-    public int CommentId { get; }
+    public int Id { get; }
 
-    public DeleteWallCommentCommand(int commentId)
+    public DeleteWallCommentCommand(int id)
     {
-        CommentId = commentId;
+        Id = id;
     }
 }
