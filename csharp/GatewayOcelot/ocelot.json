@@ -1,0 +1,175 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5120"
+  },
+  "Routes": [
+
+	// Posts API
+    {
+      "UpstreamPathTemplate": "/posts",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/posts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5504
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/posts/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/posts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5504
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 10
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/posts{id}/upvote",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/posts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5504
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/posts{id}/downvote",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/posts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5504
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/branches/{branchId}/posts",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/branches/{branchId}/posts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5504
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+
+    // Branches API
+    {
+      "UpstreamPathTemplate": "/branches",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamPathTemplate": "/api/branches",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5123
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/branches/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/branches/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5123
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/branches/{id}/moderators",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/branches/{id}/moderators",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5123
+        }
+      ]
+    },
+
+    // Walls API
+    {
+      "UpstreamPathTemplate": "/walls/{userId}/",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/wall/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5219
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/walls/{userId}/{postId}",
+      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/wall/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5219
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/walls/{userId}/{postId}/comments",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/wall/{postId}/comment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5219
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/walls/{userId}/comment/{id}/",
+      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/wall/comment/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5219
+        }
+      ]
+    }
+  ]
+}
