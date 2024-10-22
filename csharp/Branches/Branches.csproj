@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,7 +13,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Branches_BLL\Branches_BLL.csproj" />
-      <ProjectReference Include="..\PostsDAL_EF\PostsDAL_EF.csproj" />
     </ItemGroup>
 
 </Project>

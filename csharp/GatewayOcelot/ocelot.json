@@ -12,8 +12,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5504
+          "Host": "posts.api",
+          "Port": 8080
         }
       ]
     },
@@ -24,8 +24,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5504
+          "Host": "posts.api",
+          "Port": 8080
         }
       ],
       "FileCacheOptions": {
@@ -39,8 +39,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5504
+          "Host": "posts.api",
+          "Port": 8080
         }
       ]
     },
@@ -51,8 +51,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5504
+          "Host": "posts.api",
+          "Port": 8080
         }
       ]
     },
@@ -63,8 +63,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5504
+          "Host": "posts.api",
+          "Port": 8080
         }
       ],
       "FileCacheOptions": {
@@ -80,8 +80,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5123
+          "Host": "branches.api",
+          "Port": 8080
         }
       ],
       "FileCacheOptions": {
@@ -95,8 +95,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5123
+          "Host": "branches.api",
+          "Port": 8080
         }
       ],
       "FileCacheOptions": {
@@ -110,8 +110,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5123
+          "Host": "branches.api",
+          "Port": 8080
         }
       ]
     },
@@ -124,8 +124,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5219
+          "Host": "walls.api",
+          "Port": 8080
         }
       ],
       "FileCacheOptions": {
@@ -139,8 +139,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5219
+          "Host": "walls.api",
+          "Port": 8080
         }
       ]
     },
@@ -151,8 +151,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5219
+          "Host": "walls.api",
+          "Port": 8080
         }
       ],
       "FileCacheOptions": {
@@ -166,8 +166,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5219
+          "Host": "walls.api",
+          "Port": 8080
         }
       ]
     }

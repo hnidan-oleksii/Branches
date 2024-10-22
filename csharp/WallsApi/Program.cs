@@ -9,11 +9,16 @@ using WallsApi.Middleware.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var pgsqlHost = Environment.GetEnvironmentVariable("PSQL_HOST");
+var pgsqlPort = Environment.GetEnvironmentVariable("PSQL_PORT");
+var pgsqlUser = Environment.GetEnvironmentVariable("PSQL_USER");
+var pgsqlPass = Environment.GetEnvironmentVariable("PSQL_PASS");
+var connectionString = $"Host={pgsqlHost};Port={pgsqlPort};Database=walls;Username={pgsqlUser};Password={pgsqlPass};";
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");
 builder.Services.AddDbContext<IWallContext, WallContext>(options =>
 {
 	options.EnableSensitiveDataLogging();
@@ -37,6 +42,12 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+	var dbContext = scope.ServiceProvider.GetRequiredService<WallContext>();
+	dbContext.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

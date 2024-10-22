@@ -11,12 +11,17 @@ using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var pgsqlHost = Environment.GetEnvironmentVariable("PSQL_HOST");
+var pgsqlPort = Environment.GetEnvironmentVariable("PSQL_PORT");
+var pgsqlUser = Environment.GetEnvironmentVariable("PSQL_USER");
+var pgsqlPass = Environment.GetEnvironmentVariable("PSQL_PASS");
+var connectionString = $"Host={pgsqlHost};Port={pgsqlPort};Database=branches;Username={pgsqlUser};Password={pgsqlPass};";
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database + transactions
-var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");
 builder.Services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
 builder.Services.AddScoped<IDbTransaction>(s =>
 {

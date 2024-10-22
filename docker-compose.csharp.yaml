@@ -1,0 +1,78 @@
+services:
+  postgres:
+      extends:
+        file: docker-compose.yaml
+        service: postgres
+
+  walls.api:
+    build:
+      dockerfile: csharp/WallsApi/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      BUILD_CONFIGURATION: Development
+      PSQL_HOST: postgres
+      PSQL_USER: postgres
+      PSQL_PASS: disco
+      PSQL_PORT: 5432
+    ports:
+      - "5219:8080"
+    depends_on:
+      - postgres
+    networks:
+      - branches-network
+    command: ["dotnet", "WallsApi.dll"]
+
+  posts.api:
+    build:
+      dockerfile: csharp/Posts/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      BUILD_CONFIGURATION: Development
+      PSQL_HOST: postgres
+      PSQL_USER: postgres
+      PSQL_PASS: disco
+      PSQL_PORT: 5432
+    ports:
+      - "5045:8080"
+    depends_on:
+      - postgres
+    networks:
+      - branches-network
+    command: ["dotnet", "Posts.dll"]
+
+  branches.api:
+    build:
+      dockerfile: csharp/Branches/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      BUILD_CONFIGURATION: Development
+      PSQL_HOST: postgres
+      PSQL_USER: postgres
+      PSQL_PASS: disco
+      PSQL_PORT: 5432
+    ports:
+      - "51233:8080"
+    depends_on:
+      - postgres
+    networks:
+      - branches-network
+    command: ["dotnet", "Branches.dll"]
+
+  ocelot.gateway:
+    build:
+      dockerfile: csharp/GatewayOcelot/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      BUILD_CONFIGURATION: Development
+    ports:
+      - "5120:8080"
+    networks:
+      - branches-network
+    command: ["dotnet", "GatewayOcelot.dll"]
+
+networks:
+  branches-network:
