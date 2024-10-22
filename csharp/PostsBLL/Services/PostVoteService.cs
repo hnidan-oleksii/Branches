@@ -20,6 +20,8 @@ public class PostVoteService : IPostVoteService
 
     public async Task VotePostAsync(CreatePostVoteDTO dto)
     {
+        await _unitOfWork.BeginTransactionAsync();
+
         var existingVote = await _unitOfWork.PostVotes.GetUserVoteAsync(postId: dto.PostId, userId: dto.UserId);
 
         if (existingVote == null)
@@ -39,55 +41,9 @@ public class PostVoteService : IPostVoteService
             await _unitOfWork.PostVotes.DeleteAsync(existingVote.PostId);
         }
 
+        await _unitOfWork.SaveChangesAsync();
         await _unitOfWork.CommitTransactionAsync();
     }
-
-    /*
-    // public async Task UpvotePostAsync(CreatePostVoteDTO dto)
-    // {
-    //     var existingVote = await _unitOfWork.PostVotes.GetUserVoteAsync(postId, userId);
-    //
-    //     if (existingVote == null)
-    //     {
-    //         var newVote = _mapper.Map<PostVote>(dto);
-    //         newVote.VotedAt = DateTime.UtcNow;
-    //
-    //         await _unitOfWork.PostVotes.AddAsync(newVote);
-    //     }
-    //     else if (existingVote.VoteType != 1)
-    //     {
-    //         existingVote.VoteType = 1;
-    //         await _unitOfWork.PostVotes.UpdateAsync(existingVote);
-    //     }
-    //
-    //     await _unitOfWork.CommitAsync();
-    // }
-    //
-    // public async Task DownvotePostAsync(int postId, int userId)
-    // {
-    //     var existingVote = await _unitOfWork.PostVotes.GetUserVoteAsync(postId, userId);
-    //
-    //     if (existingVote == null)
-    //     {
-    //         var newVote = new PostVote
-    //         {
-    //             PostId = postId,
-    //             UserId = userId,
-    //             VoteType = -1, // downvote
-    //             VotedAt = DateTime.UtcNow
-    //         };
-    //
-    //         await _unitOfWork.PostVotes.AddAsync(newVote);
-    //     }
-    //     else if (existingVote.VoteType != -1)
-    //     {
-    //         existingVote.VoteType = -1;
-    //         await _unitOfWork.PostVotes.UpdateAsync(existingVote);
-    //     }
-    //
-    //     await _unitOfWork.CommitAsync();
-    // }
-    */
 
     public async Task<int> GetPostVoteCountAsync(int postId)
     {

@@ -24,9 +24,9 @@ public class PostService : IPostService
     {
         var posts = await _unitOfWork.Posts.GetAllAsync();
         var postDTOs = _mapper.Map<IEnumerable<PostDTO>>(posts);
-        
+
         SearchByTitle(ref postDTOs, parameters.Title);
-        
+
         return PagedList<PostDTO>.ToPagedList(postDTOs,
             parameters.PageNumber,
             parameters.PageSize);
@@ -47,7 +47,10 @@ public class PostService : IPostService
     {
         var post = _mapper.Map<Post>(dto);
 
-        await _unitOfWork.Posts.AddAsync(post);
+        await _unitOfWork.BeginTransactionAsync();
+        post = await _unitOfWork.Posts.AddAsync(post);
+
+        await _unitOfWork.SaveChangesAsync();
         await _unitOfWork.CommitTransactionAsync();
 
         return _mapper.Map<PostDTO>(post);
@@ -55,6 +58,8 @@ public class PostService : IPostService
 
     public async Task UpdatePostAsync(int id, UpdatePostDTO dto)
     {
+        await _unitOfWork.BeginTransactionAsync();
+
         var post = await _unitOfWork.Posts.GetByIdAsync(id);
         if (post == null)
         {
@@ -65,12 +70,16 @@ public class PostService : IPostService
         post.Content = dto.Content;
 
         await _unitOfWork.Posts.UpdateAsync(post);
+        await _unitOfWork.SaveChangesAsync();
         await _unitOfWork.CommitTransactionAsync();
     }
 
     public async Task DeletePostAsync(int id)
     {
+        await _unitOfWork.BeginTransactionAsync();
         await _unitOfWork.Posts.DeleteAsync(id);
+
+        await _unitOfWork.SaveChangesAsync();
         await _unitOfWork.CommitTransactionAsync();
     }
 

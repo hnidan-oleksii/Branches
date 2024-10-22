@@ -33,6 +33,15 @@ builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
+if (!useAdo)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<PostsContext>();
+        dbContext.Database.Migrate();
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
