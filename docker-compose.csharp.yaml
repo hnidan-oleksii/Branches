@@ -11,10 +11,6 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080
       ASPNETCORE_ENVIRONMENT: Development
       BUILD_CONFIGURATION: Development
-      PSQL_HOST: postgres
-      PSQL_USER: postgres
-      PSQL_PASS: disco
-      PSQL_PORT: 5432
     ports:
       - "5219:8080"
     depends_on:
@@ -30,10 +26,6 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080
       ASPNETCORE_ENVIRONMENT: Development
       BUILD_CONFIGURATION: Development
-      PSQL_HOST: postgres
-      PSQL_USER: postgres
-      PSQL_PASS: disco
-      PSQL_PORT: 5432
     ports:
       - "5045:8080"
     depends_on:
@@ -49,10 +41,6 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080
       ASPNETCORE_ENVIRONMENT: Development
       BUILD_CONFIGURATION: Development
-      PSQL_HOST: postgres
-      PSQL_USER: postgres
-      PSQL_PASS: disco
-      PSQL_PORT: 5432
     ports:
       - "51233:8080"
     depends_on:

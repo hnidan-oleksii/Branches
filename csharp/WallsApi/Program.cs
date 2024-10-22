@@ -9,16 +9,11 @@ using WallsApi.Middleware.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var pgsqlHost = Environment.GetEnvironmentVariable("PSQL_HOST");
-var pgsqlPort = Environment.GetEnvironmentVariable("PSQL_PORT");
-var pgsqlUser = Environment.GetEnvironmentVariable("PSQL_USER");
-var pgsqlPass = Environment.GetEnvironmentVariable("PSQL_PASS");
-var connectionString = $"Host={pgsqlHost};Port={pgsqlPort};Database=walls;Username={pgsqlUser};Password={pgsqlPass};";
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");
 builder.Services.AddDbContext<IWallContext, WallContext>(options =>
 {
 	options.EnableSensitiveDataLogging();

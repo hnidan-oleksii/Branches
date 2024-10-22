@@ -9,17 +9,12 @@ using PostsDAL_EF.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var pgsqlHost = Environment.GetEnvironmentVariable("PSQL_HOST");
-var pgsqlPort = Environment.GetEnvironmentVariable("PSQL_PORT");
-var pgsqlUser = Environment.GetEnvironmentVariable("PSQL_USER");
-var pgsqlPass = Environment.GetEnvironmentVariable("PSQL_PASS");
-var connectionString = $"Host={pgsqlHost};Port={pgsqlPort};Database=posts;Username={pgsqlUser};Password={pgsqlPass};";
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Repositories + UoW
+var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");
 var useAdo = false;
 if (useAdo)
     builder.Services.AddDapperRepositories(connectionString);
