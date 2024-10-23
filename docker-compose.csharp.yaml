@@ -17,6 +17,10 @@ services:
       - postgres
     networks:
       - branches-network
+    develop:
+         watch:
+            - action: rebuild
+              path: csharp/WallsApi/
     command: ["dotnet", "WallsApi.dll"]
 
   posts.api:
@@ -32,6 +36,10 @@ services:
       - postgres
     networks:
       - branches-network
+    develop:
+         watch:
+            - action: rebuild
+              path: csharp/Posts/
     command: ["dotnet", "Posts.dll"]
 
   branches.api:
@@ -47,6 +55,10 @@ services:
       - postgres
     networks:
       - branches-network
+    develop:
+         watch:
+            - action: rebuild
+              path: csharp/Branches/
     command: ["dotnet", "Branches.dll"]
 
   ocelot.gateway:
@@ -60,6 +72,10 @@ services:
       - "5120:8080"
     networks:
       - branches-network
+    develop:
+         watch:
+            - action: rebuild
+              path: csharp/GatewayOcelot/
     command: ["dotnet", "GatewayOcelot.dll"]
 
   http.aggregator:
@@ -73,6 +89,10 @@ services:
       - "5036:8080"
     networks:
       - branches-network
+    develop:
+         watch:
+            - action: rebuild
+              path: csharp/HttpAggregator/
     command: ["dotnet", "HttpAggregator.dll"]
 
 
