@@ -1,6 +1,6 @@
 using AutoMapper;
 using PostsBLL.DTOs.PostVote;
-using PostsDAL_ADO.Entities;
+using PostsDAL_EF.Entities;
 
 namespace PostsBLL.AutomapperProfiles;
 

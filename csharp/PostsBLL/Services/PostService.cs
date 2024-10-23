@@ -22,7 +22,7 @@ public class PostService : IPostService
 
     public async Task<PagedList<PostDTO>> GetPosts(PostParameters parameters)
     {
-        var posts = await _unitOfWork.Posts.GetAllAsync();
+        var posts = await _unitOfWork.Posts.GetFullPosts();
         var postDTOs = _mapper.Map<IEnumerable<PostDTO>>(posts);
 
         SearchByTitle(ref postDTOs, parameters.Title);
@@ -34,7 +34,7 @@ public class PostService : IPostService
 
     public async Task<PostDTO> GetPostByIdAsync(int id)
     {
-        var post = await _unitOfWork.Posts.GetByIdAsync(id);
+        var post = await _unitOfWork.Posts.GetFullPost(id);
         if (post == null)
         {
             throw new KeyNotFoundException($"Post with id {id} not found.");

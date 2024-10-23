@@ -32,11 +32,19 @@ public class PostRepository : Repository<Post>, IPostRepository
 
     public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(int userId)
     {
-        return await _table.Where(p => p.UserId == userId).ToListAsync();
+        return await _table.Where(p => p.UserId == userId)
+            .Include(p => p.Votes)
+            .Include(p => p.Branch)
+            .Include(p => p.User)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Post>> GetPostsByBranchIdAsync(int branchId)
     {
-        return await _table.Where(p => p.BranchId == branchId).ToListAsync();
+        return await _table.Where(p => p.BranchId == branchId)
+            .Include(p => p.Votes)
+            .Include(p => p.Branch)
+            .Include(p => p.User)
+            .ToListAsync();
     }
 }

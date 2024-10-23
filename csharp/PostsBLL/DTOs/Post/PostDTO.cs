@@ -1,3 +1,5 @@
+using PostsBLL.DTOs.PostVote;
+
 namespace PostsBLL.DTOs.Post;
 
 public class PostDTO
@@ -8,4 +10,6 @@ public class PostDTO
     public int BranchId { get; set; }
     public int UserId { get; set; }
     public DateTime CreatedAt { get; set; }
+
+    public IEnumerable<PostVoteDTO> Votes { get; set; }
 }
