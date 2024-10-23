@@ -90,7 +90,7 @@
     },
     {
       "UpstreamPathTemplate": "/branches/{id}",
-      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "UpstreamHttpMethod": [ "Put", "Delete" ],
       "DownstreamPathTemplate": "/api/branches/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -170,6 +170,23 @@
           "Port": 8080
         }
       ]
+    },
+
+    // Http Aggregator
+    {
+      "UpstreamPathTemplate": "/branches/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/branches/aggr/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "http.aggregator",
+          "Port": 8080
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
     }
   ]
 }

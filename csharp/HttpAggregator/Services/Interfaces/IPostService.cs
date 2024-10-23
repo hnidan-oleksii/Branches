@@ -1,6 +1,8 @@
+using HttpAggregator.Models;
+
 namespace HttpAggregator.Services.Interfaces;
 
-public class IPostService
+public interface IPostService
 {
-    
+    Task<IEnumerable<PostModel>> GetByBranchId(int id);
 }

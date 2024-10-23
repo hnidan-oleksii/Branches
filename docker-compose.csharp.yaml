@@ -42,7 +42,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       BUILD_CONFIGURATION: Development
     ports:
-      - "51233:8080"
+      - "5123:8080"
     depends_on:
       - postgres
     networks:
@@ -61,6 +61,20 @@ services:
     networks:
       - branches-network
     command: ["dotnet", "GatewayOcelot.dll"]
+
+  http.aggregator:
+    build:
+      dockerfile: csharp/HttpAggregator/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      BUILD_CONFIGURATION: Development
+    ports:
+      - "5036:8080"
+    networks:
+      - branches-network
+    command: ["dotnet", "HttpAggregator.dll"]
+
 
 networks:
   branches-network:
