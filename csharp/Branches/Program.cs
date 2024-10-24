@@ -36,11 +36,21 @@ builder.Services.AddScoped<IBranchService, BranchService>();
 // Automapper
 builder.Services.AddAutoMapper(typeof(BranchMappingProfile).Assembly);
 
+// Redis
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = "redis";
+    opt.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions()
+    {
+        AbortOnConnectFail = true,
+        EndPoints = { opt.Configuration }
+    };
+});
+
 // Exception Handling
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-
 
 var app = builder.Build();
 

@@ -83,10 +83,7 @@
           "Host": "branches.api",
           "Port": 8080
         }
-      ],
-      "FileCacheOptions": {
-        "TtlSeconds": 30
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/branches/{id}",
@@ -98,10 +95,7 @@
           "Host": "branches.api",
           "Port": 8080
         }
-      ],
-      "FileCacheOptions": {
-        "TtlSeconds": 30
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/branches/{id}/moderators",
