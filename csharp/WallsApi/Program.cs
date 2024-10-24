@@ -20,6 +20,9 @@ builder.Services.AddDbContext<IWallContext, WallContext>(options =>
 	options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
 });
 
+// In-memory caching
+builder.Services.AddMemoryCache();
+
 // Automapper
 builder.Services.AddAutoMapper(typeof(WallPostMappingProfile).Assembly);
 

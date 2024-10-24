@@ -127,10 +127,7 @@
           "Host": "walls.api",
           "Port": 8080
         }
-      ],
-      "FileCacheOptions": {
-        "TtlSeconds": 30
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/walls/{userId}/{postId}",
@@ -154,10 +151,7 @@
           "Host": "walls.api",
           "Port": 8080
         }
-      ],
-      "FileCacheOptions": {
-        "TtlSeconds": 30
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/walls/{userId}/comment/{id}/",

@@ -1,26 +1,24 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using WallsApplication.Common.Interfaces;
 
 namespace WallsApplication.WallPosts.Commands.UpdateWallPost;
 
-public class UpdateWallPostCommandHandler : IRequestHandler<UpdateWallPostCommand, Unit>
+public class UpdateWallPostCommandHandler(IWallContext context, IMemoryCache cache)
+    : IRequestHandler<UpdateWallPostCommand, Unit>
 {
-    private readonly IWallContext _context;
-
-    public UpdateWallPostCommandHandler(IWallContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Unit> Handle(UpdateWallPostCommand request, CancellationToken cancellationToken)
     {
-        var wallPost = await _context.WallPosts.FindAsync(request.Id);
+        var wallPost = await context.WallPosts.FindAsync(request.Id);
 
         if (wallPost == null)
             throw new KeyNotFoundException($"Wall post with id {request.Id} was not found");
 
         wallPost.UpdateContent(request.Content);
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+
+        var cacheKey = $"wallPostsByUserId:{wallPost.ProfileUserId}";
+        cache.Remove(cacheKey);
 
         return Unit.Value;
     }
