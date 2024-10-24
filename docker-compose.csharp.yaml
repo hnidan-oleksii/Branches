@@ -1,9 +1,5 @@
+version: '4'
 services:
-  postgres:
-      extends:
-        file: docker-compose.yaml
-        service: postgres
-
   walls.api:
     build:
       dockerfile: csharp/WallsApi/Dockerfile
@@ -18,9 +14,9 @@ services:
     networks:
       - branches-network
     develop:
-         watch:
-            - action: rebuild
-              path: csharp/WallsApi/
+      watch:
+        - action: rebuild
+          path: csharp/WallsApi/
     command: ["dotnet", "WallsApi.dll"]
 
   posts.api:
@@ -37,9 +33,9 @@ services:
     networks:
       - branches-network
     develop:
-         watch:
-            - action: rebuild
-              path: csharp/Posts/
+      watch:
+        - action: rebuild
+          path: csharp/Posts/
     command: ["dotnet", "Posts.dll"]
 
   branches.api:
@@ -56,9 +52,9 @@ services:
     networks:
       - branches-network
     develop:
-         watch:
-            - action: rebuild
-              path: csharp/Branches/
+      watch:
+        - action: rebuild
+          path: csharp/Branches/
     command: ["dotnet", "Branches.dll"]
 
   ocelot.gateway:
@@ -73,9 +69,9 @@ services:
     networks:
       - branches-network
     develop:
-         watch:
-            - action: rebuild
-              path: csharp/GatewayOcelot/
+      watch:
+        - action: rebuild
+          path: csharp/GatewayOcelot/
     command: ["dotnet", "GatewayOcelot.dll"]
 
   http.aggregator:
@@ -90,11 +86,10 @@ services:
     networks:
       - branches-network
     develop:
-         watch:
-            - action: rebuild
-              path: csharp/HttpAggregator/
+      watch:
+        - action: rebuild
+          path: csharp/HttpAggregator/
     command: ["dotnet", "HttpAggregator.dll"]
-
 
 networks:
   branches-network:

@@ -1,0 +1,26 @@
+version: '4'
+services:
+  postgres:
+    image: postgres:16.3
+    container_name: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: disco
+    volumes:
+      - ./infrastructure/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/postgres/data:/var/lib/postgresql/data
+    networks:
+      - branches-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - branches-network
+
+networks:
+  branches-network:
+    driver: bridge
