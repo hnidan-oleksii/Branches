@@ -8,20 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.66.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PostsBLL\PostsBLL.csproj" />
-      <ProjectReference Include="..\PostsDAL_EF\PostsDAL_EF.csproj" />
+        <ProjectReference Include="..\PostsBLL\PostsBLL.csproj"/>
+        <ProjectReference Include="..\PostsDAL_EF\PostsDAL_EF.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="ServiceRegistration\AddAdoRepositories.cs" />
+        <Compile Remove="ServiceRegistration\AddAdoRepositories.cs"/>
     </ItemGroup>
 
 </Project>

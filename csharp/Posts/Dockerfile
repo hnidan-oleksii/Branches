@@ -15,6 +15,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+EXPOSE 8082
 EXPOSE 5045
 EXPOSE 44357
 COPY --from=publish /app/publish .

@@ -26,8 +26,10 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080
       ASPNETCORE_ENVIRONMENT: Development
       BUILD_CONFIGURATION: Development
+      ASPNETCORE_PROTOCOLS: "Http1AndHttp2"
     ports:
       - "5045:8080"
+      - "5046:8081"
     depends_on:
       - postgres
     networks:
@@ -90,6 +92,24 @@ services:
         - action: rebuild
           path: csharp/HttpAggregator/
     command: ["dotnet", "HttpAggregator.dll"]
+
+  grpc-aggregator:
+    build:
+      dockerfile: csharp/GrpcAggregator/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      BUILD_CONFIGURATION: Development
+    ports:
+      - "5112:8080"
+    networks:
+      - branches-network
+    develop:
+      watch:
+        - action: rebuild
+          path: csharp/GrpcAggregator/
+    depends_on:
+      - posts.api
 
 networks:
   branches-network:
