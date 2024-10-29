@@ -1,14 +1,15 @@
 package com.branches.comments.service;
 
 import com.branches.comments.dto.CommentDTO;
+import com.branches.comments.dto.CommentVoteDTO;
 import com.branches.comments.dto.CreateCommentDTO;
 import com.branches.comments.dto.UpdateCommentDTO;
 import com.branches.comments.entity.Comment;
+import com.branches.comments.entity.CommentVote;
 import com.branches.comments.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,22 @@ public class CommentService {
     }
 
     private CommentDTO mapToCommentDTO(Comment comment) {
-        return new CommentDTO(comment.getId(), comment.getPostId(), comment.getUserId(), comment.getContent(), comment.getCreatedAt());
+        return new CommentDTO(comment.getId(),
+                comment.getPostId(),
+                comment.getUserId(),
+                comment.getContent(),
+                comment.getCreatedAt(),
+                comment.getCommentVote().stream()
+                        .map(this::mapToCommentVoteDTO)
+                        .toList());
+    }
+
+    private CommentVoteDTO mapToCommentVoteDTO(CommentVote commentVote) {
+        return new CommentVoteDTO(commentVote.getId(),
+                commentVote.getComment().getId(),
+                commentVote.getUserId(),
+                commentVote.getVoteType(),
+                commentVote.getVotedAt());
     }
 
     private Comment mapCreateDTOToComment(CreateCommentDTO commentDTO) {

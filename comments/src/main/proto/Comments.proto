@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_package = "com.branches.comments.grpc.comments";
+
+package comments;
+
+service CommentService {
+  rpc GetCommentsByPostId(CommentsRequest) returns (CommentsResponse);
+}
+
+message CommentsRequest {
+  int64 postId = 1;
+}
+
+message CommentsResponse {
+  repeated Comment comments = 1;
+}
+
+message Comment {
+  int64 id = 1;
+  int64 postId = 2;
+  int64 userId = 3;
+  string content = 4;
+  repeated CommentVote votes = 5;
+}
+
+message CommentVote {
+  int64 id = 1;
+  int64 commentId = 2;
+  int64 userId = 3;
+  int32 voteType = 4;
+}

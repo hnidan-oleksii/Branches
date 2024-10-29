@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -28,4 +29,7 @@ public class Comment {
     private String content;
 
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+    private Collection<CommentVote> commentVote;
 }

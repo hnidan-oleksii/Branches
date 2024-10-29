@@ -12,10 +12,15 @@ services:
       PSQL_PORT: 5432
     ports:
       - "8081:8081"
+      - "8181:9001"
     depends_on:
       - postgres
     networks:
       - branches-network
+    develop:
+      watch:
+        - action: rebuild
+          path: comments/
 
   reports-server:
     image: reports-server
@@ -34,6 +39,10 @@ services:
       - postgres
     networks:
       - branches-network
+    develop:
+      watch:
+        - action: rebuild
+          path: reports/
 
   gateway-server:
     image: gateway-server
@@ -47,6 +56,10 @@ services:
       - "9000:9000"
     networks:
       - branches-network
+    develop:
+      watch:
+        - action: rebuild
+          path: gateway/
 
 networks:
   branches-network:
