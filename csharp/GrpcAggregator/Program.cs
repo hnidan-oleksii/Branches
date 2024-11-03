@@ -1,5 +1,7 @@
 using GrpcAggregator.Grpc.Protos.Comments;
 using GrpcAggregator.Grpc.Protos.Posts;
+using GrpcAggregator.Mapping;
+using GrpcAggregator.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,12 @@ builder.Services.AddGrpcClient<CommentService.CommentServiceClient>(o =>
         };
     });
 });
+
+// Services
+builder.Services.AddScoped<PostsAggregatorService>();
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(PostsMappingProfile).Assembly);
 
 var app = builder.Build();
 
