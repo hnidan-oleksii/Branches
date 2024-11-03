@@ -3,11 +3,12 @@
     "BaseUrl": "http://localhost:5120"
   },
   "Routes": [
-
-	// Posts API
+    // Posts API
     {
       "UpstreamPathTemplate": "/posts",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [
+        "Post"
+      ],
       "DownstreamPathTemplate": "/api/posts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -19,7 +20,10 @@
     },
     {
       "UpstreamPathTemplate": "/posts/{id}",
-      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "UpstreamHttpMethod": [
+        "Put",
+        "Delete"
+      ],
       "DownstreamPathTemplate": "/api/posts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -34,7 +38,9 @@
     },
     {
       "UpstreamPathTemplate": "/posts{id}/upvote",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [
+        "Post"
+      ],
       "DownstreamPathTemplate": "/api/posts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -46,7 +52,9 @@
     },
     {
       "UpstreamPathTemplate": "/posts{id}/downvote",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [
+        "Post"
+      ],
       "DownstreamPathTemplate": "/api/posts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -58,7 +66,9 @@
     },
     {
       "UpstreamPathTemplate": "/branches/{branchId}/posts",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
       "DownstreamPathTemplate": "/api/branches/{branchId}/posts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -71,11 +81,13 @@
         "TtlSeconds": 30
       }
     },
-
     // Branches API
     {
       "UpstreamPathTemplate": "/branches",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
       "DownstreamPathTemplate": "/api/branches",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -87,7 +99,10 @@
     },
     {
       "UpstreamPathTemplate": "/branches/{id}",
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "UpstreamHttpMethod": [
+        "Put",
+        "Delete"
+      ],
       "DownstreamPathTemplate": "/api/branches/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -99,7 +114,9 @@
     },
     {
       "UpstreamPathTemplate": "/branches/{id}/moderators",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
       "DownstreamPathTemplate": "/api/branches/{id}/moderators",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -109,11 +126,13 @@
         }
       ]
     },
-
     // Walls API
     {
       "UpstreamPathTemplate": "/walls/{userId}/",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
       "DownstreamPathTemplate": "/api/users/{userId}/wall/",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -125,7 +144,10 @@
     },
     {
       "UpstreamPathTemplate": "/walls/{userId}/{postId}",
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "UpstreamHttpMethod": [
+        "Put",
+        "Delete"
+      ],
       "DownstreamPathTemplate": "/api/users/{userId}/wall/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -137,7 +159,10 @@
     },
     {
       "UpstreamPathTemplate": "/walls/{userId}/{postId}/comments",
-      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post"
+      ],
       "DownstreamPathTemplate": "/api/users/{userId}/wall/{postId}/comment",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -149,7 +174,10 @@
     },
     {
       "UpstreamPathTemplate": "/walls/{userId}/comment/{id}/",
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "UpstreamHttpMethod": [
+        "Put",
+        "Delete"
+      ],
       "DownstreamPathTemplate": "/api/users/{userId}/wall/comment/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -159,16 +187,35 @@
         }
       ]
     },
-
     // Http Aggregator
     {
       "UpstreamPathTemplate": "/branches/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
       "DownstreamPathTemplate": "/api/branches/aggr/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "http.aggregator",
+          "Port": 8080
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      }
+    },
+    // Grpc Aggregator
+    {
+      "UpstreamPathTemplate": "/posts/{id}",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamPathTemplate": "/api/posts/aggr/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "grpc.aggregator",
           "Port": 8080
         }
       ],

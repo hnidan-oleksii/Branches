@@ -93,7 +93,7 @@ services:
           path: csharp/HttpAggregator/
     command: ["dotnet", "HttpAggregator.dll"]
 
-  grpc-aggregator:
+  grpc.aggregator:
     build:
       dockerfile: csharp/GrpcAggregator/Dockerfile
     environment:
