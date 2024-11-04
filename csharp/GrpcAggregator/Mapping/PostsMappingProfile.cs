@@ -8,7 +8,7 @@ public class PostsMappingProfile : Profile
 {
     public PostsMappingProfile()
     {
-        CreateMap<PostResponse, PostModel>();
+        CreateMap<Post, PostModel>();
         CreateMap<PostVote, PostVoteModel>();
     }
 }

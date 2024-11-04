@@ -1,4 +1,5 @@
 using AutoMapper;
+using Grpc.Core;
 using GrpcAggregator.Grpc.Protos.Comments;
 using GrpcAggregator.Grpc.Protos.Posts;
 using GrpcAggregator.Models;
@@ -16,7 +17,11 @@ public class PostsAggregatorService(
         var postResponse = await postClient.GetPostWithVotesAsync(postRequest);
 
         var commentRequest = new CommentsRequest { PostId = postId };
-        var commentResponse = await commentClient.GetCommentsByPostIdAsync(commentRequest);
+        var commentResponseStream = commentClient.GetCommentsByPostId(commentRequest);
+
+        var comments = new List<CommentModel>();
+        await foreach (var comment in commentResponseStream.ResponseStream.ReadAllAsync())
+            comments.Add(mapper.Map<CommentModel>(comment));
 
         var aggregatedPost = new PostModel
         {
@@ -25,7 +30,7 @@ public class PostsAggregatorService(
             Content = postResponse.Post.Content,
             UserId = postResponse.Post.UserId,
             Votes = mapper.Map<List<PostVoteModel>>(postResponse.Post.Votes),
-            Comments = mapper.Map<List<CommentModel>>(commentResponse.Comments)
+            Comments = comments
         };
 
         return aggregatedPost;

@@ -5,15 +5,11 @@ option csharp_namespace = "GrpcAggregator.Grpc.Protos.Comments";
 package comments;
 
 service CommentService {
-  rpc GetCommentsByPostId(CommentsRequest) returns (CommentsResponse);
+  rpc GetCommentsByPostId(CommentsRequest) returns (stream Comment);
 }
 
 message CommentsRequest {
   int64 postId = 1;
-}
-
-message CommentsResponse {
-  repeated Comment comments = 1;
 }
 
 message Comment {
