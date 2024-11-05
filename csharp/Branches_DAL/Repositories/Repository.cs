@@ -24,14 +24,11 @@ public class Repository<T> : IRepository<T> where T : class
     {
         var result = await _dbConnection.QuerySingleOrDefaultAsync<T>(
             $"SELECT * FROM {_tableName} WHERE id = @Id",
-            param: new { Id = id },
-            transaction: _dbTransaction
+            new { Id = id },
+            _dbTransaction
         );
 
-        if (result == null)
-        {
-            throw new KeyNotFoundException($"{typeof(T).Name} with id {id} could not be found.");
-        }
+        if (result == null) throw new KeyNotFoundException($"{typeof(T).Name} with id {id} could not be found.");
 
         return result;
     }
@@ -43,29 +40,29 @@ public class Repository<T> : IRepository<T> where T : class
             $"SELECT * FROM {_tableName}",
             transaction: _dbTransaction
         );
-        if (result == null)
-        {
-            throw new KeyNotFoundException($"Couldn't retrieve entities from {nameof(T)}");
-        }
+        if (result == null) throw new KeyNotFoundException($"Couldn't retrieve entities from {nameof(T)}");
 
         return result;
     }
 
-    public async Task<int> AddAsync(T entity)
+    public async Task<T> AddAsync(T entity)
     {
-        return await _dbConnection.ExecuteAsync(
-            GenerateInsertQuery(),
-            param: entity,
-            transaction: _dbTransaction
+        var insertQuery = GenerateInsertQuery();
+        var result = await _dbConnection.QuerySingleAsync<T>(
+            insertQuery,
+            entity,
+            _dbTransaction
         );
+
+        return result;
     }
 
     public async Task<int> UpdateAsync(T entity)
     {
         return await _dbConnection.ExecuteAsync(
             GenerateUpdateQuery(),
-            param: entity,
-            transaction: _dbTransaction
+            entity,
+            _dbTransaction
         );
     }
 
@@ -73,8 +70,8 @@ public class Repository<T> : IRepository<T> where T : class
     {
         return await _dbConnection.ExecuteAsync(
             $"DELETE FROM {_tableName} WHERE Id = @Id",
-            param: new { Id = id },
-            transaction: _dbTransaction
+            new { Id = id },
+            _dbTransaction
         );
     }
 
@@ -83,7 +80,7 @@ public class Repository<T> : IRepository<T> where T : class
         var properties = typeof(T).GetProperties().Select(p => p.Name).Where(p => p != "Id");
         var columns = string.Join(",", properties);
         var values = string.Join(",", properties.Select(p => $"@{p}"));
-        return $"INSERT INTO {_tableName} ({columns}) VALUES ({values})";
+        return $"INSERT INTO {_tableName} ({columns}) VALUES ({values}) RETURNING *";
     }
 
     private string GenerateUpdateQuery()

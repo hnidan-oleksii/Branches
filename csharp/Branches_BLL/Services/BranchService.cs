@@ -60,22 +60,19 @@ public class BranchService(IUnitOfWork unitOfWork, IMapper mapper, IDistributedC
     public async Task<int> AddBranchAsync(CreateBranchDTO branchDto)
     {
         var branch = mapper.Map<Branch>(branchDto);
-        var newId = await unitOfWork.Branches.AddAsync(branch);
+        var insertedBranch = await unitOfWork.Branches.AddAsync(branch);
         await unitOfWork.CommitAsync();
 
         const string cacheKey = "branches";
         await cache.RemoveAsync(cacheKey);
 
-        return newId;
+        return insertedBranch.Id;
     }
 
     public async Task<int> UpdateBranchAsync(int branchId, CreateBranchDTO branchDto)
     {
         var existingBranch = await unitOfWork.Branches.GetByIdAsync(branchId);
-        if (existingBranch == null)
-        {
-            throw new KeyNotFoundException("Branch not found");
-        }
+        if (existingBranch == null) throw new KeyNotFoundException("Branch not found");
 
         mapper.Map(branchDto, existingBranch);
         existingBranch.UpdatedAt = DateTime.UtcNow;
@@ -94,10 +91,7 @@ public class BranchService(IUnitOfWork unitOfWork, IMapper mapper, IDistributedC
     public async Task<int> DeleteBranchAsync(int branchId)
     {
         var branch = await unitOfWork.Branches.GetByIdAsync(branchId);
-        if (branch == null)
-        {
-            throw new KeyNotFoundException("Branch not found");
-        }
+        if (branch == null) throw new KeyNotFoundException("Branch not found");
 
         var deletedInt = await unitOfWork.Branches.DeleteAsync(branchId);
         await unitOfWork.CommitAsync();

@@ -7,12 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Branches_DAL\Branches_DAL.csproj" />
+        <ProjectReference Include="..\Branches_DAL\Branches_DAL.csproj"/>
+        <ProjectReference Include="..\Common\Common.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="13.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.10" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.0"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.10"/>
     </ItemGroup>
 
 </Project>
