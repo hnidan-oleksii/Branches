@@ -10,6 +10,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly PostsContext _context;
     private IPostRepository? _posts;
     private IPostVoteRepository? _postVotes;
+    private IBranchRepository _branches;
     private IDbContextTransaction _transaction;
 
     public UnitOfWork(PostsContext context)
@@ -20,6 +21,7 @@ public class UnitOfWork : IUnitOfWork
     public PostsContext Context => _context;
     public IPostRepository Posts => _posts ??= new PostRepository(_context);
     public IPostVoteRepository PostVotes => _postVotes ??= new PostVoteRepository(_context);
+    public IBranchRepository Branches => _branches ??= new BranchRepository(_context);
 
     public async Task<int> SaveChangesAsync()
     {

@@ -40,6 +40,25 @@ builder.Services.AddScoped<IPostVoteService, PostVoteService>();
 // Automapper
 builder.Services.AddAutoMapper(typeof(PostMappingProfile).Assembly);
 
+// RabbitMQ + MassTransit
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumersFromNamespaceContaining(typeof(BranchCreatedConsumer));
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        var rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ");
+        cfg.Host(rabbitMqSettings["Host"]);
+
+        cfg.ReceiveEndpoint("branches-updates-queue", e =>
+        {
+            e.ConfigureConsumer<BranchCreatedConsumer>(context);
+            e.ConfigureConsumer<BranchUpdatedConsumer>(context);
+            e.ConfigureConsumer<BranchDeletedConsumer>(context);
+        });
+    });
+});
+
 // Exception Handling
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();

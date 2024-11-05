@@ -8,6 +8,7 @@ public interface IUnitOfWork : IDisposable
     PostsContext Context { get; }
     IPostRepository Posts { get; }
     IPostVoteRepository PostVotes { get; }
+    IBranchRepository Branches { get; }
     Task<int> SaveChangesAsync();
     Task BeginTransactionAsync();
     Task CommitTransactionAsync();
