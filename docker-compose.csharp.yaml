@@ -1,4 +1,3 @@
-version: '4'
 services:
   walls.api:
     build:
@@ -32,6 +31,7 @@ services:
       - "5046:8081"
     depends_on:
       - postgres
+      - rabbitmq
     networks:
       - branches-network
     develop:
@@ -51,6 +51,7 @@ services:
       - "5123:8080"
     depends_on:
       - postgres
+      - rabbitmq
     networks:
       - branches-network
     develop:
