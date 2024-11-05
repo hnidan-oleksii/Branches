@@ -5,6 +5,7 @@ COPY ["csharp/Posts/.", "Posts/"]
 COPY ["csharp/PostsBLL/.", "PostsBLL/"]
 COPY ["csharp/PostsDAL_ADO/.", "PostsDAL_ADO/"]
 COPY ["csharp/PostsDAL_EF/.", "PostsDAL_EF/"]
+COPY ["csharp/Common/.", "Common/"]
 RUN dotnet restore "Posts/Posts.csproj"
 
 COPY . .

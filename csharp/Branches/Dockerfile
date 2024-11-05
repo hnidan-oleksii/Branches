@@ -4,6 +4,7 @@ WORKDIR /app
 COPY ["csharp/Branches/.", "Branches/"]
 COPY ["csharp/Branches_BLL/.", "Branches_BLL/"]
 COPY ["csharp/Branches_DAL/.", "Branches_DAL/"]
+COPY ["csharp/Common/.", "Common/"]
 RUN dotnet restore "Branches/Branches.csproj"
 
 COPY . .
