@@ -1,18 +1,28 @@
+using Common.EventModels.Branches;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Posts.Middleware.Exceptions;
 using PostsBLL.AutomapperProfiles;
+using PostsBLL.Consumers;
 using PostsBLL.Grpc;
 using PostsBLL.Services;
 using PostsBLL.Services.Interfaces;
 using PostsDAL_ADO;
 using PostsDAL_EF;
 using PostsDAL_EF.Context;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
+    new OpenApiInfo
+    {
+        Title = "Posts API",
+        Version = "v1"
+    }));
 
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();

@@ -2,12 +2,18 @@ using GrpcAggregator.Grpc.Protos.Comments;
 using GrpcAggregator.Grpc.Protos.Posts;
 using GrpcAggregator.Mapping;
 using GrpcAggregator.Services;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
+    new OpenApiInfo
+    {
+        Title = "gRPC Aggregator",
+        Version = "v1"
+    }));
 
 // Grpc
 builder.Services.AddGrpc();

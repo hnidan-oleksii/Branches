@@ -4,6 +4,7 @@ using WallsApplication.WallPosts.Commands.CreateWallPost;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using WallsApplication.Common.Interfaces;
 using WallsApi.Middleware.Exceptions;
 
@@ -11,13 +12,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
+    new OpenApiInfo
+    {
+        Title = "Walls API",
+        Version = "v1"
+    }));
 
 var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");
 builder.Services.AddDbContext<IWallContext, WallContext>(options =>
 {
-	options.EnableSensitiveDataLogging();
-	options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
+    options.EnableSensitiveDataLogging();
+    options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
 });
 
 // In-memory caching
@@ -43,8 +49,8 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-	var dbContext = scope.ServiceProvider.GetRequiredService<WallContext>();
-	dbContext.Database.Migrate();
+    var dbContext = scope.ServiceProvider.GetRequiredService<WallContext>();
+    dbContext.Database.Migrate();
 }
 
 if (app.Environment.IsDevelopment())

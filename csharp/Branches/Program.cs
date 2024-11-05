@@ -10,13 +10,19 @@ using Branches.Middleware.Exceptions;
 using Common.EventModels.Branches;
 using Npgsql;
 using MassTransit;
+using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
+    new OpenApiInfo
+    {
+        Title = "Branches API",
+        Version = "v1"
+    }));
 
 // Database + transactions
 var connectionString = builder.Configuration.GetConnectionString("PgsqlConnection");

@@ -5,6 +5,7 @@
   "Routes": [
     // Posts API
     {
+      "SwaggerKey": "posts.api",
       "UpstreamPathTemplate": "/posts",
       "UpstreamHttpMethod": [
         "Post"
@@ -19,6 +20,7 @@
       ]
     },
     {
+      "SwaggerKey": "posts.api",
       "UpstreamPathTemplate": "/posts/{id}",
       "UpstreamHttpMethod": [
         "Put",
@@ -37,6 +39,7 @@
       }
     },
     {
+      "SwaggerKey": "posts.api",
       "UpstreamPathTemplate": "/posts{id}/upvote",
       "UpstreamHttpMethod": [
         "Post"
@@ -51,6 +54,7 @@
       ]
     },
     {
+      "SwaggerKey": "posts.api",
       "UpstreamPathTemplate": "/posts{id}/downvote",
       "UpstreamHttpMethod": [
         "Post"
@@ -65,6 +69,7 @@
       ]
     },
     {
+      "SwaggerKey": "posts.api",
       "UpstreamPathTemplate": "/branches/{branchId}/posts",
       "UpstreamHttpMethod": [
         "Get"
@@ -83,6 +88,7 @@
     },
     // Branches API
     {
+      "SwaggerKey": "branches.api",
       "UpstreamPathTemplate": "/branches",
       "UpstreamHttpMethod": [
         "Get",
@@ -98,6 +104,7 @@
       ]
     },
     {
+      "SwaggerKey": "branches.api",
       "UpstreamPathTemplate": "/branches/{id}",
       "UpstreamHttpMethod": [
         "Put",
@@ -113,6 +120,7 @@
       ]
     },
     {
+      "SwaggerKey": "branches.api",
       "UpstreamPathTemplate": "/branches/{id}/moderators",
       "UpstreamHttpMethod": [
         "Get"
@@ -128,6 +136,7 @@
     },
     // Walls API
     {
+      "SwaggerKey": "walls.api",
       "UpstreamPathTemplate": "/walls/{userId}/",
       "UpstreamHttpMethod": [
         "Get",
@@ -143,6 +152,7 @@
       ]
     },
     {
+      "SwaggerKey": "walls.api",
       "UpstreamPathTemplate": "/walls/{userId}/{postId}",
       "UpstreamHttpMethod": [
         "Put",
@@ -158,6 +168,7 @@
       ]
     },
     {
+      "SwaggerKey": "walls.api",
       "UpstreamPathTemplate": "/walls/{userId}/{postId}/comments",
       "UpstreamHttpMethod": [
         "Get",
@@ -173,6 +184,7 @@
       ]
     },
     {
+      "SwaggerKey": "walls.api",
       "UpstreamPathTemplate": "/walls/{userId}/comment/{id}/",
       "UpstreamHttpMethod": [
         "Put",
@@ -189,6 +201,7 @@
     },
     // Http Aggregator
     {
+      "SwaggerKey": "http.aggregator",
       "UpstreamPathTemplate": "/branches/{id}",
       "UpstreamHttpMethod": [
         "Get"
@@ -207,6 +220,7 @@
     },
     // Grpc Aggregator
     {
+      "SwaggerKey": "grpc.aggregator",
       "UpstreamPathTemplate": "/posts/{id}",
       "UpstreamHttpMethod": [
         "Get"
@@ -222,6 +236,58 @@
       "FileCacheOptions": {
         "TtlSeconds": 30
       }
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "posts.api",
+      "Config": [
+        {
+          "Name": "Posts API",
+          "Version": "v1",
+          "Url": "http://posts.api:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "branches.api",
+      "Config": [
+        {
+          "Name": "Branches API",
+          "Version": "v1",
+          "Url": "http://branches.api:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "walls.api",
+      "Config": [
+        {
+          "Name": "Walls API",
+          "Version": "v1",
+          "Url": "http://walls.api:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "http.aggregator",
+      "Config": [
+        {
+          "Name": "HTTP Aggregator",
+          "Version": "v1",
+          "Url": "http://http.aggregator:8080/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "grpc.aggregator",
+      "Config": [
+        {
+          "Name": "gRPC Aggregator",
+          "Version": "v1",
+          "Url": "http://grpc.aggregator:8080/swagger/v1/swagger.json"
+        }
+      ]
     }
   ]
 }

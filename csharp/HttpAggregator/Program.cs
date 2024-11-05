@@ -1,11 +1,17 @@
 using HttpAggregator.Services;
 using HttpAggregator.Services.Interfaces;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => c.SwaggerDoc("v1",
+    new OpenApiInfo
+    {
+        Title = "HTTP Aggregator",
+        Version = "v1"
+    }));
 
 builder.Services.AddHttpClient<IBranchService, BranchService>(c =>
     c.BaseAddress = new Uri(builder.Configuration["ApiSettings:BranchUrl"]));
