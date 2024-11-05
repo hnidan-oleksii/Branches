@@ -5,11 +5,17 @@ using Branches_BLL.Services.Interfaces;
 using Branches_DAL.Entities;
 using Branches_DAL.UoW.Interfaces;
 using Branches.Extensions;
+using Common.EventModels.Branches;
+using MassTransit;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Branches_BLL.Services;
 
-public class BranchService(IUnitOfWork unitOfWork, IMapper mapper, IDistributedCache cache) : IBranchService
+public class BranchService(
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    IDistributedCache cache,
+    IPublishEndpoint publishEndpoint) : IBranchService
 {
     public async Task<IEnumerable<BranchDTO>> GetAllBranchesAsync()
     {
@@ -61,6 +67,8 @@ public class BranchService(IUnitOfWork unitOfWork, IMapper mapper, IDistributedC
     {
         var branch = mapper.Map<Branch>(branchDto);
         var insertedBranch = await unitOfWork.Branches.AddAsync(branch);
+        await publishEndpoint.Publish(new BranchCreated(insertedBranch.Id, branch.Name),
+            context => { context.SetRoutingKey("create.branch"); });
         await unitOfWork.CommitAsync();
 
         const string cacheKey = "branches";
@@ -78,6 +86,8 @@ public class BranchService(IUnitOfWork unitOfWork, IMapper mapper, IDistributedC
         existingBranch.UpdatedAt = DateTime.UtcNow;
 
         var updatedId = await unitOfWork.Branches.UpdateAsync(existingBranch);
+        await publishEndpoint.Publish(new BranchUpdated(branchId, branchDto.Name),
+            context => { context.SetRoutingKey("update.branch"); });
         await unitOfWork.CommitAsync();
 
         const string cacheKeyGeneral = "branches";
@@ -94,6 +104,8 @@ public class BranchService(IUnitOfWork unitOfWork, IMapper mapper, IDistributedC
         if (branch == null) throw new KeyNotFoundException("Branch not found");
 
         var deletedInt = await unitOfWork.Branches.DeleteAsync(branchId);
+        await publishEndpoint.Publish(new BranchDeleted(branchId),
+            context => { context.SetRoutingKey("delete.branch"); });
         await unitOfWork.CommitAsync();
 
         const string cacheKeyGeneral = "branches";

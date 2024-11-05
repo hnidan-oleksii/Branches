@@ -7,7 +7,10 @@ using Branches_DAL.Repositories.Interfaces;
 using Branches_DAL.UoW;
 using Branches_DAL.UoW.Interfaces;
 using Branches.Middleware.Exceptions;
+using Common.EventModels.Branches;
 using Npgsql;
+using MassTransit;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +48,17 @@ builder.Services.AddStackExchangeRedisCache(opt =>
         AbortOnConnectFail = true,
         EndPoints = { opt.Configuration }
     };
+});
+
+// RabbitMQ + MassTransit
+builder.Services.AddMassTransit(opt =>
+{
+    opt.UsingRabbitMq((context, cfg) =>
+    {
+        var rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ");
+        cfg.Host(rabbitMqSettings["Host"]);
+        cfg.ConfigureEndpoints(context);
+    });
 });
 
 // Exception Handling
