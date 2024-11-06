@@ -1,4 +1,6 @@
 using Common.EventModels.Branches;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -8,6 +10,7 @@ using PostsBLL.Consumers;
 using PostsBLL.Grpc;
 using PostsBLL.Services;
 using PostsBLL.Services.Interfaces;
+using PostsBLL.Validation.Posts;
 using PostsDAL_ADO;
 using PostsDAL_EF;
 using PostsDAL_EF.Context;
@@ -49,6 +52,12 @@ builder.Services.AddScoped<IPostVoteService, PostVoteService>();
 
 // Automapper
 builder.Services.AddAutoMapper(typeof(PostMappingProfile).Assembly);
+
+// FluentValidation
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CreatePostDtoValidator>();
+
 
 // RabbitMQ + MassTransit
 builder.Services.AddMassTransit(x =>
