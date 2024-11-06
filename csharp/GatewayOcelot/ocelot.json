@@ -51,7 +51,13 @@
           "Host": "posts.api",
           "Port": 8080
         }
-      ]
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      }
     },
     {
       "SwaggerKey": "posts.api",
@@ -66,7 +72,13 @@
           "Host": "posts.api",
           "Port": 8080
         }
-      ]
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      }
     },
     {
       "SwaggerKey": "posts.api",
@@ -101,7 +113,13 @@
           "Host": "branches.api",
           "Port": 8080
         }
-      ]
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 10,
+        "Limit": 10
+      }
     },
     {
       "SwaggerKey": "branches.api",
@@ -171,7 +189,6 @@
       "SwaggerKey": "walls.api",
       "UpstreamPathTemplate": "/walls/{userId}/{postId}/comments",
       "UpstreamHttpMethod": [
-        "Get",
         "Post"
       ],
       "DownstreamPathTemplate": "/api/users/{userId}/wall/{postId}/comment",
@@ -198,6 +215,39 @@
           "Port": 8080
         }
       ]
+    },
+    {
+      "SwaggerKey": "walls.api",
+      "UpstreamPathTemplate": "/walls/{userId}/posts",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamPathTemplate": "/api/users/{userId}/wall",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "walls.api",
+          "Port": 8080
+        }
+      ],
+      "Key": "GetWallPosts"
+    },
+    // Walls API for fetching comments for posts
+    {
+      "SwaggerKey": "walls.api",
+      "UpstreamPathTemplate": "/walls/{userId}/{postId}/comments",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamPathTemplate": "/api/users/{userId}/wall/{postId}/comment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "walls.api",
+          "Port": 8080
+        }
+      ],
+      "Key": "GetCommentsForPosts"
     },
     // Http Aggregator
     {
@@ -236,6 +286,17 @@
       "FileCacheOptions": {
         "TtlSeconds": 30
       }
+    }
+  ],
+  "Aggregates": [
+    {
+      "UpstreamPathTemplate": "/walls/{userId}/all-posts-with-comments",
+      "Aggregator": "WallPostsCommentsAggregator",
+      "RouteKeys": [
+        "GetWallPosts",
+        "GetCommentsForPosts"
+      ],
+      "SwaggerKey": "walls.api"
     }
   ],
   "SwaggerEndPoints": [

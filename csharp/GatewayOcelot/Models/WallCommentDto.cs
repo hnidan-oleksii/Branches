@@ -1,10 +1,10 @@
-namespace WallsApplication.Common.Models;
+namespace GatewayOcelot.Models;
 
-public class WallPostDto
+public class WallCommentDto
 {
     public int Id { get; set; }
+    public int PostId { get; set; }
     public int AuthorUserId { get; set; }
     public string Content { get; set; }
     public DateTime CreatedAt { get; set; }
-    public IEnumerable<WallCommentDto> WallComments { get; set; }
 }

@@ -1,3 +1,4 @@
+using GatewayOcelot.DefinedAggregator;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -10,7 +11,8 @@ builder.Services.AddSwaggerForOcelot(builder.Configuration);
 
 builder.Configuration.AddJsonFile("ocelot.json", false, true);
 builder.Services.AddOcelot(builder.Configuration)
-    .AddCacheManager(x => { x.WithDictionaryHandle(); });
+    .AddCacheManager(x => { x.WithDictionaryHandle(); })
+    .AddSingletonDefinedAggregator<WallPostsCommentsAggregator>();
 
 var app = builder.Build();
 

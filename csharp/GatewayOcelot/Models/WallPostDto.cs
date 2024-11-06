@@ -1,4 +1,4 @@
-namespace WallsApplication.Common.Models;
+namespace GatewayOcelot.Models;
 
 public class WallPostDto
 {
