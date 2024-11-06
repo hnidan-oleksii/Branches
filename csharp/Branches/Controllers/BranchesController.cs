@@ -18,7 +18,7 @@ public class BranchesController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<BranchDTO>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<BranchDTO>>> GetAllBranches()
     {
         var branches = await _branchService.GetAllBranchesAsync();
@@ -27,8 +27,8 @@ public class BranchesController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(BranchDTO), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)] 
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<BranchDTO>> GetBranchById(int id)
     {
         var branch = await _branchService.GetBranchByIdAsync(id);
@@ -36,6 +36,9 @@ public class BranchesController : ControllerBase
     }
 
     [HttpGet("{branchId}/moderators")]
+    [ProducesResponseType(typeof(BranchMemberDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<BranchMemberDTO>>> GetModerators(int branchId)
     {
         var moderators = await _branchService.GetModeratorsByBranchIdAsync(branchId);
@@ -44,8 +47,8 @@ public class BranchesController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)] 
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> AddBranch([FromBody] CreateBranchDTO branchDto)
     {
         await _branchService.AddBranchAsync(branchDto);
@@ -53,9 +56,9 @@ public class BranchesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)] 
-    [ProducesResponseType(StatusCodes.Status404NotFound)] 
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateBranch(int id, [FromBody] CreateBranchDTO branchDto)
     {
         await _branchService.UpdateBranchAsync(id, branchDto);
@@ -63,9 +66,9 @@ public class BranchesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)] 
-    [ProducesResponseType(StatusCodes.Status404NotFound)] 
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)] 
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteBranch(int id)
     {
         await _branchService.DeleteBranchAsync(id);

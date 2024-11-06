@@ -26,14 +26,20 @@ public class WallsController : ControllerBase
     // --- WallPost Endpoints ---
 
     [HttpGet]
+    [ProducesResponseType(typeof(List<WallPostDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<List<WallPostDto>>> GetWallPostsByUserId(int userId)
     {
-		var query = new GetWallPostsByUserIdQuery(userId);
+        var query = new GetWallPostsByUserIdQuery(userId);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateWallPost(int userId,
         [FromBody] CreateWallPostCommand command)
     {
@@ -45,6 +51,9 @@ public class WallsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateWallPost(int id,
         [FromBody] UpdateWallPostCommand command)
     {
@@ -56,6 +65,9 @@ public class WallsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteWallPost(int id)
     {
         var command = new DeleteWallPostCommand(id);
@@ -66,15 +78,21 @@ public class WallsController : ControllerBase
     // --- WallComment Endpoints ---
 
     [HttpGet("{postId}/comments")]
+    [ProducesResponseType(typeof(List<WallCommentDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<List<WallCommentDto>>> GetCommentsByPostId(int postId)
     {
-		var query = new GetCommentsByPostIdQuery(postId);
+        var query = new GetCommentsByPostIdQuery(postId);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
 
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("{postId}/comment")]
-    public async Task<IActionResult> CreateWallComment(int userId, 
+    public async Task<IActionResult> CreateWallComment(int userId,
         int postId,
         [FromBody] CreateWallCommentCommand command)
     {
@@ -82,10 +100,14 @@ public class WallsController : ControllerBase
             return BadRequest("Post ID in the route does not match the Post ID in the body.");
 
         var commentId = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetCommentsByPostId), new { userId = userId, postId = command.PostId }, commentId);
+        return CreatedAtAction(nameof(GetCommentsByPostId), new { userId = userId, postId = command.PostId },
+            commentId);
     }
 
     [HttpPut("comment/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateWallComment(int id,
         [FromBody] UpdateWallCommentCommand command)
     {
@@ -97,6 +119,9 @@ public class WallsController : ControllerBase
     }
 
     [HttpDelete("comment/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteWallComment(int id)
     {
         var command = new DeleteWallCommentCommand(id);
